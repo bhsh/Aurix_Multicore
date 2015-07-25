@@ -62,6 +62,5 @@ typedef struct
 /******************************************************************************/
 
 IFX_EXTERN App_Cpu0 g_AppCpu0;
-//extern float32  g_AppCpu3;
 
 #endif

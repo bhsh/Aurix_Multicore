@@ -58,8 +58,7 @@
 /******************************************************************************/
 /*                         Exported prototypes                                */
 /******************************************************************************/
-//void __private1 _Core1_start(void);
-void  _Core1_start(void);
+void _Core1_start(void);
 void _Core2_start(void);
 
 /*Documentation */

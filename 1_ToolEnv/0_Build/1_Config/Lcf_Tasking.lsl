@@ -251,97 +251,28 @@ derivative tc27A
 			}
 		);
 	}
-		// add prohibit among the cores
-	section_setup :tc0:linear
-    {
-       //   prohibit_references_to :tc1:linear, :tc1:abs18,:tc1:abs24 ,:tc1:csa, :tc2:linear, :tc2:abs18, :tc2:abs24 ,:tc2:csa;
-        // prohibit_references_to :tc2:linear, :tc2:abs18;
-    }
-    section_setup :tc1:linear
-    {
-       //  prohibit_references_to :tc0:linear, :tc0:abs18,:tc0:abs24 ,:tc0:csa, :tc2:linear, :tc2:abs18,:tc2:abs24 ,:tc2:csa;
-    }
-    section_setup :tc2:linear
-    {
-         // prohibit_references_to :tc0:linear, :tc0:abs18,:tc0:abs24 ,:tc0:csa, :tc1:linear, :tc1:abs18, :tc1:abs24 ,:tc1:csa;
-        // prohibit_references_to :tc0:linear, :tc0:abs18;
-    }
-	//section_layout mpe:tc0:linear // must be core tc0; vtc is not allowed here
-   // {
-   //     group LMU_code0 ( ordered, run_addr=0x80003000,nocopy, attributes=rx)
-  //     {
-   //     select ".text.*"; // select section from tc0
-  //    }
-   // }
-    section_layout :tc0:linear
+	section_layout :tc0:linear
 	{  
     /*	 group PSPR ( run_addr = mem:mpe:pflash0, nocopy, attributes=rx )
         {
          //  select ".text.private0.private0.p0";
         } */
-	     group  (ordered, run_addr=0x80004000,nocopy, attributes=rx )
+	     group  (ordered,run_addr =0x80002000, nocopy, attributes=rx )
 		{
 			select ".text.private0.*";
 		}
-
-		group  (ordered, run_addr=mem:pfls0)
-		{
-			select ".text.share.*";
-		}
-		
-/*		group (ordered, contiguous, align = 8, attributes=rw, run_addr = mem:dsram0)
-		{
-		//	select "(.zdata.zdata_cpu0|.zdata.zdata_cpu0.*)";
-		//	select "(.zbss.zbss_cpu0|.zbss.zbss_cpu0.*)";
-		}	*/
-		//group (ordered, contiguous, align = 8, attributes=r, run_addr = mem:dsram0)
-		group (ordered, run_addr=0x70000200, attributes=rw)
-		{
-			//select "(.zdata.private0.|.zdata.private0.*)";
-			select ".bss.*";
-		}
-	}
+    }
     section_layout :tc1:linear
-	{   
-		group  (ordered,run_addr = mem:pfls0, nocopy, attributes=rx )
+	{  
+    /*	 group PSPR ( run_addr = mem:mpe:pflash0, nocopy, attributes=rx )
+        {
+         //  select ".text.private0.private0.p0";
+        } */
+	     group  (ordered,run_addr =0x80003000, nocopy, attributes=rx )
 		{
-		
-		// select ".text.private1.IfxCpu_CStart1._Core1_start";
-		
+			select ".text.private1.*";
 		}
-		        
-		//group  (ordered, run_addr=mem:pfls0)
-		group  (run_addr = mem:pfls0, nocopy, attributes=rx )
-		{
-			 select ".text.private1.*";
-		}
-/*		group (ordered, contiguous, align = 8, attributes=rw, run_addr = mem:dsram1)
-		{
-			select "(.zdata.zdata_cpu1|.zdata.zdata_cpu1.*)";
-			select "(.zbss.zbss_cpu1|.zbss.zbss_cpu1.*)";
-		}	*/	
-		group (ordered, contiguous, align = 8, attributes=rw, run_addr = mem:dsram1)
-		{
-			select "(.zdata.private1.|.zdata.private1.*)";
-		} 
-	}
-    section_layout :tc2:linear
-	{                 
-		group  (ordered, run_addr=mem:pfls0)
-		{
-			select ".text.private2.*";
-		}
-/*	    group (ordered, contiguous, align = 8, attributes=rw, run_addr = mem:dsram2)
-		{
-			select "(.zdata.zdata_cpu2|.zdata.zdata_cpu2.*)";
-			select "(.zbss.zbss_cpu2|.zbss.zbss_cpu2.*)";
-		} */
-		group (ordered, contiguous, align = 8, attributes=r, run_addr = mem:dsram2)
-		{
-			select "(.zdata.private2.|.zdata.private2.*)";
-		}
-		
-	}
+    }
 	/*Near data sections*/
 	section_layout :vtc:abs18
 	{	
@@ -361,22 +292,20 @@ derivative tc27A
 		{
 			select "(.zdata.zdata_cpu0|.zdata.zdata_cpu0.*)";
 			select "(.zbss.zbss_cpu0|.zbss.zbss_cpu0.*)";
-			//select "(.zbss.zbss_cpu0.*)";
 		}
 #		if LCF_DEFAULT_HOST == LCF_CPU2
 		group (ordered, contiguous, align = 4, attributes=rw, run_addr = mem:dsram2)
 #		endif
-#		if LCF_DEFAULT_HOST == LCF_CPU2
+#		if LCF_DEFAULT_HOST == LCF_CPU1
 		group (ordered, contiguous, align = 4, attributes=rw, run_addr = mem:dsram1)
 #		endif
 #		if LCF_DEFAULT_HOST == LCF_CPU0
 		group (ordered, contiguous, align = 4, attributes=rw, run_addr = mem:dsram0)
 #		endif
-	//	group (ordered, contiguous, align = 4, attributes=rw, run_addr = mem:dsram0)
-	//	{
-	//		select "(.zdata|.zdata.*)";
-	//		select "(.zbss|.zbss.*)";
-	//	}
+		{
+			select "(.zdata|.zdata.*)";
+			select "(.zbss|.zbss.*)";
+		}
 	}
 
 	section_layout :vtc:linear 
@@ -406,9 +335,8 @@ derivative tc27A
 		
 		group (ordered, contiguous, align = 4, run_addr = mem:dsram1)
 		{
-			//select "(.data.data_cpu1|.data.data_cpu1.*)";
-			//select "(.bss.bss_cpu1|.bss.bss_cpu1.*)";
-			select "(*.bss_cpu1)";
+			select "(.data.data_cpu1|.data.data_cpu1.*)";
+			select "(.bss.bss_cpu1|.bss.bss_cpu1.*)";
 		}
 		
 		group (ordered, contiguous, align = 4, run_addr = mem:dsram0)
@@ -427,7 +355,7 @@ derivative tc27A
 		group (ordered, contiguous, align = 4, attributes=rw, run_addr = mem:dsram0)
 #		endif
 		{
-		 	select "(.data|.data.*)";
+			select "(.data|.data.*)";
 			select "(.bss|.bss.*)";
 	    }
 
@@ -572,12 +500,6 @@ derivative tc27A
 		{
 			select "*.start";
 		}
-		//test
-		//group  reset1 (ordered, run_addr=0x80002000)
-		//{
-		//	select "*.start_core1";
-		//}
-		//test
 		group  interface_const (ordered, run_addr=0x80000040)
 		{
 			select "*.interface_const";
@@ -619,5 +541,4 @@ derivative tc27A
 		"_A9_DATA_" := sizeof(group:a9) > 0 ? addressof(group:a9) + 32k : addressof(group:a9) & 0xF0000000 + 32k;
 		"_A9_MEM" = "_A9_DATA_";
 	}
-
 }

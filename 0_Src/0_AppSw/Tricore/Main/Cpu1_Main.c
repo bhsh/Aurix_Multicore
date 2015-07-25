@@ -45,8 +45,8 @@ int core1_main (void)
 	core1_test4++;
 	core1_test5++;
 	core1_test6++;
-	test_fun();
-	test_fun3();
+	//test_fun();
+	//test_fun3();
 //	g_AppCpu3++;
     __enable ();
     /*
@@ -64,11 +64,13 @@ int core1_main (void)
    // while(lock== 0) requestLock(&lock, mask);
    while(1)
    {
-      for(i=0;i<1000;i++)
-      {
-       IfxPort_togglePin(&MODULE_P02, 1);
-       IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
-      }
+     // for(i=0;i<1000;i++)
+    //  {
+       //IfxPort_togglePin(&MODULE_P02, 1);
+       //IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
+     // }
+	   test_fun5();
+       IfxStm_waitTicks(&MODULE_STM0, 20000000);
       //releaseLock(&lock, mask);
    }
    //while (1);
@@ -100,6 +102,7 @@ void __private1 test_fun5(void)
 //test_fun();
 test_count_private1++;
 //test_fun();
+IfxPort_togglePin(&MODULE_P33, 10);
 
 }
 

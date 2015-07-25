@@ -65,25 +65,7 @@ __asm("\t .extern core1_main");
 /*********************************************************************************
 * - startup code
 *********************************************************************************/
-//volatile unsigned int test_flag;
-
-#if defined(__TASKING__)
-#pragma protect on
-//#pragma section code "start_core1"
-#endif
-
-#if 0
-void _START2(void)
-{
-
-	test_flag++;
-
-}
-
-#endif
-
-//void __private1 _Core1_start(void)
-void  _Core1_start(void)
+void _Core1_start(void)
 {
     uint32 pcxi;
     uint16 wdtPassword = IfxScuWdt_getCpuWatchdogPasswordInline(&MODULE_SCU.WDTCPU[1]);
@@ -136,10 +118,5 @@ void  _Core1_start(void)
     __non_return_call(core1_main);
 }
 
-
-#if defined(__TASKING__)
-#pragma protect restore
-//#pragma section code restore
-#endif
 
 #endif /*#ifndef IFX_CFG_USE_COMPILER_DEFAULT_LINKER */

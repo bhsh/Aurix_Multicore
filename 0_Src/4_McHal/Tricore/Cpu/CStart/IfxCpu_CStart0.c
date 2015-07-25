@@ -150,19 +150,7 @@ void _Core0_start(void)
 
     /*Start remaining cores */
 #if (IFX_CFG_CPU_CSTART_ENABLE_TRICORE1 != 0)
-
-
-   //(void)IfxCpu_startCore(&MODULE_CPU1, (uint32)&_Core1_start);       /*The status returned by function call is ignored */
-
-   //test code
-   void (*code1_start_jump)(void); 
-
-   //code1_start_jump=(void *)0x80002008;
-   
-   code1_start_jump=(void *)0x80002008;
-   (void)IfxCpu_startCore(&MODULE_CPU1, (uint32)code1_start_jump);
-   //test code
-   
+    (void)IfxCpu_startCore(&MODULE_CPU1, (uint32)&_Core1_start);       /*The status returned by function call is ignored */
 #endif
 #if (IFX_CFG_CPU_CSTART_ENABLE_TRICORE2 != 0)
     (void)IfxCpu_startCore(&MODULE_CPU2, (uint32)&_Core2_start);       /*The status returned by function call is ignored */
@@ -176,7 +164,6 @@ void _Core0_start(void)
     /*Call main function of Cpu0 */
     __non_return_call(core0_main);
 }
-
 
 
 /******************************************************************************
@@ -197,7 +184,6 @@ void _Core0_start(void)
 void _START(void)
 {
     __non_return_call(_Core0_start);
-   // _START2();
 }
 
 
