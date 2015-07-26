@@ -35,6 +35,10 @@ extern void __private0 test_fun(void);
 void __private1 test_fun3(void);
 void __share test_fun4(void);
 void __private1 test_fun5(void);
+
+extern unsigned char __clone  test_count_private0;
+unsigned char  core1_temp;
+
 int core1_main (void)
 {
 	unsigned int i=0;
@@ -71,6 +75,8 @@ int core1_main (void)
      // }
 	   test_fun5();
        IfxStm_waitTicks(&MODULE_STM0, 20000000);
+       test_count_private0+=10;
+       core1_temp=test_count_private0;
       //releaseLock(&lock, mask);
    }
    //while (1);

@@ -15,14 +15,25 @@ void __private0 test_fun_private0(void)
 
 void __share test_fun_share(void)
 {
- IfxPort_togglePin(&MODULE_P33, 8);
- test_fun_private0();
+   IfxPort_togglePin(&MODULE_P33, 8);
+// test_fun_private0();
 }
+
+void __clone test_func_clone(void)
+{
+   IfxPort_togglePin(&MODULE_P33, 8);
+}
+
+unsigned char __clone test_count_private0;
+unsigned char  core0_temp;
+
 #pragma protect off
+
 
 int core0_main (void)
 {
 	unsigned int i=0;
+
     /*
      * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
      * Enable the watchdog in the demo if it is required and also service the watchdog periodically
@@ -72,6 +83,8 @@ int core0_main (void)
 
        test_fun_share();
       // IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/100);
+   	   test_count_private0++;
+       core0_temp=test_count_private0;
        IfxStm_waitTicks(&MODULE_STM0, 30000000);
     }
     //releaseLock(&lock, mask);
